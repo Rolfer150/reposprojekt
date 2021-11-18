@@ -15,7 +15,7 @@
         android:layout_marginBottom="14dp"
         android:fontFamily="sans-serif"
         android:textSize="30dp"
-        android:text="Menu"
+        android:text="Menu główne"
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
