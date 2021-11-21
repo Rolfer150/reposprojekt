@@ -3,215 +3,233 @@ package com.example.aplikacjatreningowa;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.android.material.textfield.TextInputEditText;
-import com.squareup.picasso.Picasso;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import cz.msebera.android.httpclient.Header;
 
 public class MainActivity4 extends AppCompatActivity {
 
-    private RelativeLayout homeRL;
-    private ProgressBar loadingPB;
-    private TextView cityNameTV, temperatureTV, conditionTV;
-    private TextInputEditText cityEdt;
-    private ImageView backIV, iconIV, searchIV;
-    private RecyclerView weatherRV;
-    private ArrayList<WeatherRVModal> weatherRVModalArrayList;
-    private WeatherRVAdapter weatherRVAdapter;
-    private LocationManager locationManager;
-    private int PERMISSION_CODE = 1;
-    private String cityName;
+
+    final String APP_ID = "e2c5964a00a2516538af244af5f37723";
+    final String WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather";
+
+    final long MIN_TIME = 5000;
+    final float MIN_DISTANCE = 1000;
+    final int REQUEST_CODE = 101;
+
+
+    String Location_Provider = LocationManager.GPS_PROVIDER;
+
+    TextView NameofCity, weatherState, Temperature;
+    ImageView mweatherIcon;
+
+    RelativeLayout mCityFinder;
+
+
+    LocationManager mLocationManager;
+    LocationListener mLocationListner;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main4);
-        homeRL = findViewById(R.id.RLHome);
-        loadingPB = findViewById(R.id.PBLoading);
-        cityNameTV = findViewById(R.id.TVCityName);
-        temperatureTV = findViewById(R.id.TVTemperature);
-        conditionTV = findViewById(R.id.TVCondition);
-        weatherRV = findViewById(R.id.RVWeather);
-        cityEdt = findViewById(R.id.EdtCity);
-        backIV = findViewById(R.id.IVBack);
-        iconIV = findViewById(R.id.IVIcon);
-        searchIV = findViewById(R.id.IVSearch);
-        weatherRVModalArrayList = new ArrayList<>();
-        weatherRVAdapter = new WeatherRVAdapter(this, weatherRVModalArrayList);
-        weatherRV.setAdapter(weatherRVAdapter);
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-        {
-            ActivityCompat.requestPermissions(MainActivity4.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_CODE);
-        }
+        setContentView(R.layout.activity_main);
 
-        Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        cityName = getCityName(location.getLongitude(), location.getLatitude());
-        getWeatherInfo(cityName);
+        weatherState = findViewById(R.id.weatherCondition);
+        Temperature = findViewById(R.id.temperature);
+        mweatherIcon = findViewById(R.id.weatherIcon);
+        mCityFinder = findViewById(R.id.cityFinder);
+        NameofCity = findViewById(R.id.cityName);
 
-        searchIV.setOnClickListener(new View.OnClickListener()
-        {
+
+        mCityFinder.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
-                String city = cityEdt.getText().toString();
-                if(city.isEmpty())
-                {
-                    Toast.makeText( MainActivity4.this, "Proszę podać nazwę miejscowości", Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
-                    cityNameTV.setText(cityName);
-                    getWeatherInfo(city);
-                }
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity4.this, cityFinder.class);
+                startActivity(intent);
             }
         });
+
     }
+
+ /*   @Override
+   protected void onResume() {
+       super.onResume();
+       getWeatherForCurrentLocation();
+    }*/
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Intent mIntent=getIntent();
+        String city= mIntent.getStringExtra("City");
+        if(city!=null)
+        {
+            getWeatherForNewCity(city);
+        }
+        else
+        {
+            getWeatherForCurrentLocation();
+        }
+
+
+    }
+
+
+    private void getWeatherForNewCity(String city)
+    {
+        RequestParams params=new RequestParams();
+        params.put("q",city);
+        params.put("appid",APP_ID);
+        letsdoSomeNetworking(params);
+
+    }
+
+
+
+
+    private void getWeatherForCurrentLocation() {
+
+        mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        mLocationListner = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+
+                String Latitude = String.valueOf(location.getLatitude());
+                String Longitude = String.valueOf(location.getLongitude());
+
+                RequestParams params =new RequestParams();
+                params.put("lat" ,Latitude);
+                params.put("lon",Longitude);
+                params.put("appid",APP_ID);
+                letsdoSomeNetworking(params);
+
+
+
+
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+                //not able to get location
+            }
+        };
+
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},REQUEST_CODE);
+            return;
+        }
+        mLocationManager.requestLocationUpdates(Location_Provider, MIN_TIME, MIN_DISTANCE, mLocationListner);
+
+    }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if(requestCode == PERMISSION_CODE)
+
+        if(requestCode==REQUEST_CODE)
         {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED)
             {
-                Toast.makeText(this, "Uzyskano dostęp", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity4.this,"Locationget Succesffully",Toast.LENGTH_SHORT).show();
+                getWeatherForCurrentLocation();
             }
             else
             {
-                Toast.makeText(this, "Proszę uzyskać dostęp", Toast.LENGTH_SHORT).show();
-                finish();
+                //user denied the permission
             }
         }
+
+
     }
 
-    private String getCityName (double longitude, double latitude)
+
+
+    private  void letsdoSomeNetworking(RequestParams params)
     {
-        String cityName = "Nie znaleziono";
-        Geocoder gcd = new Geocoder(getBaseContext(), Locale.getDefault());
-
-        try
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(WEATHER_URL,params,new JsonHttpResponseHandler()
         {
-            List<Address> addresses = gcd.getFromLocation(latitude, longitude, 10);
-
-            for (Address adr : addresses)
-            {
-                if(adr != null)
-                {
-                    String city = adr.getLocality();
-                    if(city != null && !city.equals(""))
-                    {
-                        cityName = city;
-                    }
-                    else
-                    {
-                        Log.d("TAG", "Nie znaleziono miejscowości..");
-                        Toast.makeText(this, "Nieznaleziono miejscowości Użytkownika..", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        return cityName;
-    }
-
-    private void getWeatherInfo(String cityName)
-    {
-        String url = "http://api.weatherapi.com/v1/forecast.json?key=b02f93121b644780a62144912211711&q="+ cityName + "&days=1&aqi=yes&alerts=yes";
-
-        cityNameTV.setText(cityName);
-        RequestQueue requestQueue = Volley.newRequestQueue( MainActivity4.this);
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(JSONObject response) {
-                loadingPB.setVisibility(View.GONE);
-                homeRL.setVisibility(View.VISIBLE);
-                weatherRVModalArrayList.clear();
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
-                try {
-                    String temperature = response.getJSONObject("current").getString("temp_c");
-                    temperatureTV.setText(temperature + "°C");
-                    int isDay = response.getJSONObject("current").getInt("is_day");
-                    String condition = response.getJSONObject("condition").getString("text");
-                    String conditionIcon = response.getJSONObject("condition").getString("icon");
-                    Picasso.get().load("http:".concat(conditionIcon)).into(iconIV);
-                    conditionTV.setText(condition);
+                Toast.makeText(MainActivity4.this,"Data Get Success",Toast.LENGTH_SHORT).show();
 
-                    if (isDay == 1)
-                    {
-                        Picasso.get().load("https://wallpapersmug.com/download/720x1280/2d6a25/clouds-and-blue-sky.jpg").into(backIV);
-                    }
-                    else
-                    {
-                        Picasso.get().load("https://wallpapercave.com/wp/wp3335667.jpg").into(backIV);
-                    }
+                weatherData weatherD=weatherData.fromJson(response);
+                updateUI(weatherD);
 
-                    JSONObject forecastObj = response.getJSONObject("forecast");
-                    JSONObject forecastO = forecastObj.getJSONArray("forecastday").getJSONObject(0);
-                    JSONArray hourArray = forecastO.getJSONArray("hour");
 
-                    for (int i = 0; i < hourArray.length(); i++)
-                    {
-                        JSONObject hourObj = hourArray.getJSONObject(i);
-                        String time = hourObj.getString("time");
-                        String temper = hourObj.getString("temp_c");
-                        String img = hourObj.getJSONObject("condition").getString("icon");
-                        String wind = hourObj.getString("wind_kph");
-                        weatherRVModalArrayList.add(new WeatherRVModal(time, temperature, img, wind));
-                    }
-                    weatherRVAdapter.notifyDataSetChanged();
-
-                } catch (JSONException e)
-                {
-                    e.printStackTrace();
-                }
+                // super.onSuccess(statusCode, headers, response);
             }
-        },new Response.ErrorListener() {
+
+
             @Override
-            public void onErrorResponse(VolleyError error)
-            {
-                Toast.makeText(MainActivity4.this, "Proszę podać istniejącą nazwę miejscowości", Toast.LENGTH_SHORT).show();
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                //super.onFailure(statusCode, headers, throwable, errorResponse);
             }
         });
 
-        requestQueue.add(jsonObjectRequest);
 
+
+    }
+
+    private  void updateUI(weatherData weather){
+
+
+        Temperature.setText(weather.getmTemperature());
+        NameofCity.setText(weather.getMcity());
+        weatherState.setText(weather.getmWeatherType());
+        int resourceID=getResources().getIdentifier(weather.getMicon(),"drawable",getPackageName());
+        mweatherIcon.setImageResource(resourceID);
+
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(mLocationManager!=null)
+        {
+            mLocationManager.removeUpdates(mLocationListner);
+        }
     }
 }

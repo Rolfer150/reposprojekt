@@ -4,135 +4,84 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#242343"
     tools:context=".MainActivity4">
 
-    <ProgressBar
-        android:id="@+id/PBLoading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="visible"
-        android:layout_centerInParent="true" />
 
-    <RelativeLayout
-        android:id="@+id/RLHome"
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
+        android:layout_height="270dp"
+        android:id="@+id/weatherIcon"
+        android:src="@drawable/finding"
+        android:layout_marginTop="80dp">
 
-        <ImageView
-            android:id="@+id/IVBack"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:background="@color/white" />
+    </ImageView>
 
-        <TextView
-            android:id="@+id/TVCityName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="38dp"
-            android:gravity="center"
-            android:padding="20dp"
-            android:text="Nazwa Miejscowości"
-            android:textAlignment="center"
-            android:textColor="@color/blue1"
-            android:textSize="18sp" />
 
-        <LinearLayout
-            android:id="@+id/LLEdt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_below="@+id/TVCityName"
-            android:weightSum="5">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/TILCity"
-                android:layout_width="8dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="4.5"
-                android:background="@android:color/transparent"
-                android:hint="Podaj Nazwę Miejscowości"
-                android:padding="5dp"
-                app:hintTextColor="@color/blue1"
-                android:textColorHint="@color/blue1">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/EdtCity"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@android:color/transparent"
-                    android:importantForAutofill="no"
-                    android:inputType="text"
-                    android:singleLine="true"
-                    android:textColor="@color/blue1"
-                    android:textSize="14sp" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <ImageView
-                android:id="@+id/IVSearch"
-                android:layout_width="8dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="10dp"
-                android:layout_weight="0.5"
-                android:background="@android:color/transparent"
-                android:src="@drawable/ic_search"
-                app:tint="@color/blue1" />
-
-        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:orientation="vertical"
+        android:layout_above="@id/cityFinder">
 
         <TextView
-            android:id="@+id/TVTemperature"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/LLEdt"
-            android:layout_margin="10dp"
-            android:gravity="center_horizontal"
-            android:padding="5dp"
-            android:text="23"
-            android:textColor="@color/blue1"
-            android:textSize="70dp" />
-
-        <ImageView
-            android:id="@+id/IVIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/TVTemperature"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="10dp"
-            android:src="@mipmap/ic_launcher" />
-        
-        <TextView
-            android:id="@+id/TVCondition"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:gravity="center"
-            android:textAlignment="center"
-            android:text="Warunki Pogodowe"
-            android:textColor="@color/blue1"
-            android:layout_below="@+id/IVIcon" />
-        
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:layout_marginBottom="10dp"
-            android:text="Prognoza Pogody : Dziś"
-            android:layout_above="@+id/RVWeather"
-            android:textColor="@color/blue1"
-            android:textStyle="bold" />
+            android:id="@+id/temperature"
+            android:paddingStart="30dp"
+            android:textSize="50sp"
+            android:textStyle="bold"
+            android:textColor="#ffffff"
+            android:text="0*C">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/RVWeather"
+        </TextView>
+
+
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            android:id="@+id/weatherCondition"
+            android:textSize="30sp"
+            android:textColor="#ffffff"
+            android:text="---------"
+            android:paddingStart="30sp">
+
+        </TextView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/cityName"
+            android:textStyle="bold"
+            android:textSize="40sp"
+            android:text="Fetching___"
+            android:paddingStart="30sp"
+            android:textColor="#ffffff">
+
+        </TextView>
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/cityFinder"
+        android:background="@drawable/buttondesign"
+        android:layout_marginBottom="30dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Want To Search For New City"
+            android:textColor="#ffffff"
+            android:layout_centerInParent="true"
+            android:textSize="16sp" />
 
     </RelativeLayout>
 

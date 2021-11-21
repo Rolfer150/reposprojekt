@@ -20,6 +20,9 @@
         android:theme="@style/Theme.AplikacjaTreningowa"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".cityFinder"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity4"
             android:exported="false" />
         <activity
