@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     tools:context=".MainActivity4">
 
 
@@ -31,7 +30,6 @@
         android:paddingStart="30dp"
         android:textSize="50sp"
         android:textStyle="bold"
-        android:textColor="@color/blue1"
         android:text="0*C">
 
     </TextView>
@@ -43,7 +41,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/weatherCondition"
         android:textSize="30sp"
-        android:textColor="@color/blue1"
         android:text="---------"
         android:paddingStart="30sp">
 

@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     tools:context=".cityFinder">
 
     <ImageView
@@ -27,13 +26,10 @@
         android:layout_centerInParent="true"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:background="@color/blue1"
         android:gravity="center_vertical|center_horizontal"
         android:hint="Podaj nazwę Miejscowości"
-        android:textColorHint="@color/white"
         android:imeOptions="actionGo"
         android:inputType="textAutoCorrect"
-        android:textColor="@color/white"
         android:textSize="20sp">
 
     </EditText>
