@@ -10,6 +10,7 @@ import android.widget.Button;
 public class MainActivity2 extends AppCompatActivity {
 
     private Button cw_krokomierz;
+    private Button cw_ramiona;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,11 +24,25 @@ public class MainActivity2 extends AppCompatActivity {
                 openKrokomierz();
             }
         });
+
+        cw_ramiona = (Button) findViewById(R.id.cw_ramiona);
+        cw_ramiona.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openRamiona();
+            }
+        });
     }
 
     public void openKrokomierz()
     {
         Intent intent = new Intent(this, Krokomierz.class);
+        startActivity(intent);
+    }
+
+    public void openRamiona()
+    {
+        Intent intent = new Intent(this, Rozciaganie.class);
         startActivity(intent);
     }
 }
