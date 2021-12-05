@@ -10,7 +10,7 @@ import android.widget.Button;
 public class MainActivity2 extends AppCompatActivity {
 
     private Button cw_krokomierz;
-    private Button cw_ramiona;
+    private Button cw_rozciaganie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,11 +25,11 @@ public class MainActivity2 extends AppCompatActivity {
             }
         });
 
-        cw_ramiona = (Button) findViewById(R.id.cw_ramiona);
-        cw_ramiona.setOnClickListener(new View.OnClickListener() {
+        cw_rozciaganie = (Button) findViewById(R.id.cw_rozciaganie);
+        cw_rozciaganie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openRamiona();
+                openRozciaganie();
             }
         });
     }
@@ -40,7 +40,7 @@ public class MainActivity2 extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void openRamiona()
+    public void openRozciaganie()
     {
         Intent intent = new Intent(this, Rozciaganie.class);
         startActivity(intent);

@@ -9,7 +9,7 @@
     tools:context=".MainActivity2">
 
     <Button
-        android:id="@+id/cw_klatka_piersiowa"
+        android:id="@+id/cw_rozciaganie"
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:layout_marginHorizontal="20dp"
