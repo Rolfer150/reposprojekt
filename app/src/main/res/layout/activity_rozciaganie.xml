@@ -118,6 +118,12 @@
             android:layout_height="wrap_content"
             android:src="@drawable/sklon_z_poglebieniem" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Źródło: https://www.vectorstock.com/royalty-free-vectors/vectors-by_lioputra"
+            android:textAlignment="center" />
+
     </LinearLayout>
 
 
