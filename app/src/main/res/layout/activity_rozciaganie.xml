@@ -20,14 +20,12 @@
             android:layout_height="wrap_content"
             android:text="Krok 1: "
             android:textSize="20dp"
-            android:textAlignment="center"
-            android:textColor="@color/black"/>
+            android:textAlignment="center" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Wykonaj 10 skłonów"
-            android:textAlignment="center"
-            android:textColor="@color/black"/>
+            android:textAlignment="center" />
 
         <ImageView
             android:layout_width="match_parent"
@@ -39,15 +37,13 @@
             android:layout_height="wrap_content"
             android:text="Krok 2: "
             android:textSize="20dp"
-            android:textAlignment="center"
-            android:textColor="@color/black"/>
+            android:textAlignment="center" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Wykonaj ruchy okrężne przedramieniem"
-            android:textAlignment="center"
-            android:textColor="@color/black"/>
+            android:textAlignment="center" />
 
         <ImageView
             android:layout_width="match_parent"
@@ -59,15 +55,13 @@
             android:layout_height="wrap_content"
             android:text="Krok 3: "
             android:textSize="20dp"
-            android:textAlignment="center"
-            android:textColor="@color/black"/>
+            android:textAlignment="center" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Wykonaj wykrok w przód"
-            android:textAlignment="center"
-            android:textColor="@color/black"/>
+            android:textAlignment="center" />
 
         <ImageView
             android:layout_width="match_parent"
@@ -79,15 +73,13 @@
             android:layout_height="wrap_content"
             android:text="Krok 4: "
             android:textSize="20dp"
-            android:textAlignment="center"
-            android:textColor="@color/black"/>
+            android:textAlignment="center" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Wykonaj ruch nogą wedle strzałki"
-            android:textAlignment="center"
-            android:textColor="@color/black"/>
+            android:textAlignment="center" />
 
         <ImageView
             android:layout_width="match_parent"
@@ -99,15 +91,13 @@
             android:layout_height="wrap_content"
             android:text="Krok 5: "
             android:textSize="20dp"
-            android:textAlignment="center"
-            android:textColor="@color/black"/>
+            android:textAlignment="center" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Wykonaj skłon z pogłębieniem "
-            android:textAlignment="center"
-            android:textColor="@color/black"/>
+            android:textAlignment="center" />
 
         <ImageView
             android:layout_width="match_parent"
@@ -119,15 +109,13 @@
             android:layout_height="wrap_content"
             android:text="Krok 6: "
             android:textSize="20dp"
-            android:textAlignment="center"
-            android:textColor="@color/black"/>
+            android:textAlignment="center" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Wykonaj wykrok w bok"
-            android:textAlignment="center"
-            android:textColor="@color/black"/>
+            android:textAlignment="center" />
     </LinearLayout>
 
 
