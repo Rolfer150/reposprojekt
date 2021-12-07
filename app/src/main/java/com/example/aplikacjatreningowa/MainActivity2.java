@@ -12,6 +12,7 @@ public class MainActivity2 extends AppCompatActivity {
     private Button cw_krokomierz;
     private Button cw_rozciaganie;
     private Button cw_ramiona;
+    private Button cw_brzuch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,14 @@ public class MainActivity2 extends AppCompatActivity {
                 openRamiona();
             }
         });
+
+        cw_brzuch = (Button) findViewById(R.id.cw_brzuch);
+        cw_brzuch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openBrzuch();
+            }
+        });
     }
 
     public void openKrokomierz()
@@ -58,6 +67,12 @@ public class MainActivity2 extends AppCompatActivity {
     public void openRamiona()
     {
         Intent intent = new Intent(this, Ramiona.class);
+        startActivity(intent);
+    }
+
+    public void openBrzuch()
+    {
+        Intent intent = new Intent(this, Brzuch.class);
         startActivity(intent);
     }
 }

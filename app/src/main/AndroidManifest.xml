@@ -20,6 +20,9 @@
         android:theme="@style/Theme.AplikacjaTreningowa"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".Brzuch"
+            android:exported="false" />
+        <activity
             android:name=".Ramiona"
             android:exported="false" />
         <activity
