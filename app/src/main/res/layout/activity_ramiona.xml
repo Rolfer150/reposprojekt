@@ -10,36 +10,31 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/pompki_indyjskie" />
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Krok 1: "
-            android:textSize="20dp"
-            android:textAlignment="center"/>
+            android:textAlignment="center"
+            android:textSize="20dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Wykonaj pompki indyjskie"
-            android:textAlignment="center"/>
-
+            android:textAlignment="center" />
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/pompki_spidermana" />
+            android:src="@drawable/pompki_indyjskie" />
+
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Krok 2: "
-            android:textSize="20dp"
-            android:textAlignment="center"/>
+            android:textAlignment="center"
+            android:textSize="20dp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -47,18 +42,18 @@
             android:text="Wykonaj pompki spidermana"
             android:textAlignment="center" />
 
-
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/pompki_waski" />
+            android:src="@drawable/pompki_spidermana" />
+
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Krok 3: "
-            android:textSize="20dp"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textSize="20dp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -66,18 +61,18 @@
             android:text="Wykonaj pompki wąskie"
             android:textAlignment="center" />
 
-
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/dipy_na_krzesle" />
+            android:src="@drawable/pompki_waski" />
+
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Krok 4: "
-            android:textSize="20dp"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textSize="20dp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -85,6 +80,11 @@
             android:text="Wykonaj dipy na krześle"
             android:textAlignment="center" />
 
-</LinearLayout>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/dipy_na_krzesle" />
+
+    </LinearLayout>
 
     </ScrollView>
