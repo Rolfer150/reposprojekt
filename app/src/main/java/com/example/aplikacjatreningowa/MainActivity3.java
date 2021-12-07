@@ -5,16 +5,22 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.Manifest;
 import android.provider.Settings;
+import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -22,10 +28,14 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
+import java.io.IOException;
+import java.util.List;
+
 public class MainActivity3 extends AppCompatActivity implements OnMapReadyCallback {
 
     boolean isPermissionGranted;
     GoogleMap mGoogleMap;
+    SearchView searchview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +49,38 @@ public class MainActivity3 extends AppCompatActivity implements OnMapReadyCallba
             SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
             supportMapFragment.getMapAsync(this);
         }
+
+        searchview = findViewById(R.id.map_search_view);
+        searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                String location = searchview.getQuery().toString();
+                List<Address> addressList = null;
+
+                if (location != null || location.equals(""))
+                {
+                    Geocoder geocoder = new Geocoder(MainActivity3.this);
+                    try {
+                        addressList = geocoder.getFromLocationName(location, 1);
+                    } catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+
+                    Address address = addressList.get(0);
+                    LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+                    mGoogleMap.addMarker(new MarkerOptions().position(latLng).title(location));
+                    mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+                }
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
     }
 
     private void checkMyPermission()
