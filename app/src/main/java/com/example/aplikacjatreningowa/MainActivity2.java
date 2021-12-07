@@ -13,6 +13,7 @@ public class MainActivity2 extends AppCompatActivity {
     private Button cw_rozciaganie;
     private Button cw_ramiona;
     private Button cw_brzuch;
+    private Button cw_nogi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,14 @@ public class MainActivity2 extends AppCompatActivity {
                 openBrzuch();
             }
         });
+
+        cw_nogi = (Button) findViewById(R.id.cw_nogi);
+        cw_nogi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openNogi();
+            }
+        });
     }
 
     public void openKrokomierz()
@@ -73,6 +82,12 @@ public class MainActivity2 extends AppCompatActivity {
     public void openBrzuch()
     {
         Intent intent = new Intent(this, Brzuch.class);
+        startActivity(intent);
+    }
+
+    public void openNogi()
+    {
+        Intent intent = new Intent(this, Nogi.class);
         startActivity(intent);
     }
 }

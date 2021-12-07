@@ -20,6 +20,9 @@
         android:theme="@style/Theme.AplikacjaTreningowa"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".Nogi"
+            android:exported="false" />
+        <activity
             android:name=".Brzuch"
             android:exported="false" />
         <activity
