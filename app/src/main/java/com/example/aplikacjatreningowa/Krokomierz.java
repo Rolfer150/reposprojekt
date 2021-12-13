@@ -53,7 +53,7 @@ public class Krokomierz extends AppCompatActivity implements SensorEventListener
                     double MagnitudeDelta = Magnitude - MagnitudePrevious;
                     MagnitudePrevious = Magnitude;
 
-                    if (MagnitudeDelta > 3){
+                    if (MagnitudeDelta >= 2 && MagnitudeDelta <= 6 ){
                         steps++;
                     }
                     txt2.setText(steps.toString());
@@ -116,10 +116,26 @@ public class Krokomierz extends AppCompatActivity implements SensorEventListener
     @Override
     protected void onPause() {
         super.onPause();
-        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
-        editor.apply();
+
+        SharedPreferences saves = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        long stepsRunToday = saves.getLong("STEPS_RUN_TODAY", 0);
+        long stepsRunThisMonth = saves.getLong("STEPS_RUN_THIS_MONTH", 0);
+        long highestStepsRunInOneDay = saves.getLong("HIGHEST_STEPS_RUN_IN_ONE_DAY", 0);
+        SharedPreferences.Editor editor = saves.edit();
+        editor.putLong("STEPS_RUN_TODAY", steps + stepsRunToday);
+        editor.putLong("STEPS_RUN_THIS_MONTH", steps + stepsRunThisMonth);
+        if((steps+stepsRunToday) > highestStepsRunInOneDay) {
+            editor.putLong("HIGHEST_STEPS_RUN_IN_ONE_DAY", steps+stepsRunToday);
+        }
+        editor.commit();
+
+
+        sensormanager.unregisterListener(this);
+
+        if(startButtonPressed == true)
+        {
+            isRunning = true;
+        }
     }
 
     @Override
@@ -137,25 +153,7 @@ public class Krokomierz extends AppCompatActivity implements SensorEventListener
 
     }
 
-    public void back (View view) {
 
-        SharedPreferences saves = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        long stepsRunToday = saves.getLong("STEPS_RUN_TODAY", 0);
-        long stepsRunThisMonth = saves.getLong("STEPS_RUN_THIS_MONTH", 0);
-        long highestStepsRunInOneDay = saves.getLong("HIGHEST_STEPS_RUN_IN_ONE_DAY", 0);
-
-        SharedPreferences.Editor editor = saves.edit();
-        editor.putLong("STEPS_RUN_TODAY", steps + stepsRunToday);
-        editor.putLong("STEPS_RUN_THIS_MONTH", steps + stepsRunThisMonth);
-        if((steps+stepsRunToday) > highestStepsRunInOneDay) {
-            editor.putLong("HIGHEST_STEPS_RUN_IN_ONE_DAY", steps+stepsRunToday);
-        }
-        editor.commit();
-
-
-        sensormanager.unregisterListener(this);
-
-    }
 
     public void start (View view) {
         isRunning = true;
