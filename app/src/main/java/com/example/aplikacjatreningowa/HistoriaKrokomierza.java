@@ -26,9 +26,9 @@ public class HistoriaKrokomierza extends AppCompatActivity {
         long stepsRunThisMonth = saves.getLong("STEPS_RUN_THIS_MONTH", 0);
         long highestStepsRunInOneDay = saves.getLong("HIGHEST_STEPS_RUN_IN_ONE_DAY", 0);
 
-        txt2.setText("HIGHEST: " + highestStepsRunInOneDay);
-        txt3.setText("TODAY: " + stepsRunToday);
-        txt4.setText("THIS MONTH: " + stepsRunThisMonth);
+        txt2.setText("Najwyższy: " + highestStepsRunInOneDay);
+        txt3.setText("Dzisiaj: " + stepsRunToday);
+        txt4.setText("Ten miesiąc: " + stepsRunThisMonth);
     }
 
     public void resetScores (View view) {
