@@ -20,10 +20,13 @@ public class Krokomierz extends AppCompatActivity implements SensorEventListener
     //Button btn1,btn2;
 
     SensorManager sensormanager;
+    Sensor sensor;
     TextView txt2,txt3,txt4,txt5,txt6;
-    private long steps = 0;
+    private Integer steps = 0;
     boolean isRunning = false;
     boolean startButtonPressed = false;
+
+    private double MagnitudePrevious = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,14 +39,31 @@ public class Krokomierz extends AppCompatActivity implements SensorEventListener
         //btn2 = (Button) findViewById(R.id.btn2);
         txt3 = (TextView) findViewById(R.id.txt3);
 
-        Sensor countSensor = sensormanager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
-        if(countSensor != null){
-            sensormanager.registerListener(this,countSensor,SensorManager.SENSOR_DELAY_UI);
-        } else {
-            Toast.makeText(this,"NO sensor Found",Toast.LENGTH_LONG).show();
-        }
+        sensor = sensormanager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
+        SensorEventListener stepDetector = new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent sensorEvent) {
+                if (sensorEvent!= null){
+                    float x_acceleration = sensorEvent.values[0];
+                    float y_acceleration = sensorEvent.values[1];
+                    float z_acceleration = sensorEvent.values[2];
 
+                    double Magnitude = Math.sqrt(x_acceleration*x_acceleration + y_acceleration*y_acceleration + z_acceleration*z_acceleration);
+                    double MagnitudeDelta = Magnitude - MagnitudePrevious;
+                    MagnitudePrevious = Magnitude;
+
+                    if (MagnitudeDelta > 3){
+                        steps++;
+                    }
+                    txt2.setText(steps.toString());
+                }
+            }
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int i) {
+            }
+        };
+        sensormanager.registerListener(stepDetector, sensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     public void stop (View v) {
@@ -96,9 +116,10 @@ public class Krokomierz extends AppCompatActivity implements SensorEventListener
     @Override
     protected void onPause() {
         super.onPause();
-        //Log.i("tagggggg",""+ steps);
-        //isRunning = false;
-        if(startButtonPressed == true) isRunning = true;
+        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
     }
 
     @Override
