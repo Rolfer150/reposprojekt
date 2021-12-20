@@ -52,7 +52,7 @@ public class Login extends AppCompatActivity {
                 /* Check if the user inputs are empty */
                 if (userName.isEmpty() || userPassword.isEmpty()) {
                     /* Display a message toast to user to enter the details */
-                    Toast.makeText(Login.this, "Please enter name and password!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Login.this, "Proszę podać login i hasło", Toast.LENGTH_LONG).show();
 
                 } else {
 
@@ -73,11 +73,11 @@ public class Login extends AppCompatActivity {
                         /* Disable the login button if there are no attempts left */
                         if (counter == 0) {
                             eLogin.setEnabled(false);
-                            Toast.makeText(Login.this, "You have used all your attempts try again later!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(Login.this, "Wyczerpałeś wszystkie próby, Spróbuj później", Toast.LENGTH_LONG).show();
                         }
                         /* Display error message */
                         else {
-                            Toast.makeText(Login.this, "Incorrect credentials, please try again!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(Login.this, "Niepoprawne dane, podaj jeszcze raz", Toast.LENGTH_LONG).show();
                         }
                     }
                     /* If valid */
