@@ -1,6 +1,5 @@
 package com.example.aplikacjatreningowa;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -16,7 +15,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -31,25 +29,28 @@ import com.karumi.dexter.listener.single.PermissionListener;
 import java.io.IOException;
 import java.util.List;
 
-public class MainActivity3 extends AppCompatActivity implements OnMapReadyCallback {
+public class Mapa extends AppCompatActivity implements OnMapReadyCallback {
 
-    boolean isPermissionGranted;
-    GoogleMap mGoogleMap;
-    SearchView searchview;
+    boolean isPermissionGranted; // zmienna typu bool, która będzie sprawdzać czy uzyskano dostęp
+    GoogleMap mGoogleMap; // obiekt klasy GoogleMap
+    SearchView searchview; // obiekt klasy SearchView
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main3);
+        setContentView(R.layout.activity_mapa);
 
+        // implementacja funkcji sprawdzającej dostęp
         checkMyPermission();
 
+        // funkcja if sprawdza czy uzyskano dostęp
         if(isPermissionGranted)
         {
             SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
             supportMapFragment.getMapAsync(this);
         }
 
+        // implementacja paska wyszukiwania
         searchview = findViewById(R.id.map_search_view);
         searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -57,9 +58,10 @@ public class MainActivity3 extends AppCompatActivity implements OnMapReadyCallba
                 String location = searchview.getQuery().toString();
                 List<Address> addressList = null;
 
+                // jeśli nie podano lokalizacji to geokodowanie oblicza aktualną lokalizację
                 if (location != null || location.equals(""))
                 {
-                    Geocoder geocoder = new Geocoder(MainActivity3.this);
+                    Geocoder geocoder = new Geocoder(Mapa.this);
                     try {
                         addressList = geocoder.getFromLocationName(location, 1);
                     } catch (IOException e)
@@ -67,15 +69,21 @@ public class MainActivity3 extends AppCompatActivity implements OnMapReadyCallba
                         e.printStackTrace();
                     }
 
+                    //pobieranie współrzędnych geograficznych
                     Address address = addressList.get(0);
                     LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+
+                    // ustawienie znacznika lokalizacji
                     mGoogleMap.addMarker(new MarkerOptions().position(latLng).title(location));
+
+                    // poruszanie kamerą
                     mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
                 }
 
                 return false;
             }
 
+            // wywołanie zwrotne dotyczące zmian w tekście zapytania
             @Override
             public boolean onQueryTextChange(String newText) {
                 return false;
@@ -83,17 +91,20 @@ public class MainActivity3 extends AppCompatActivity implements OnMapReadyCallba
         });
     }
 
+    // sprawdzenie dostępu
     private void checkMyPermission()
     {
         Dexter.withContext(this).withPermission(Manifest.permission.ACCESS_FINE_LOCATION).withListener(new PermissionListener()
         {
+            //fragment klasy wywołuje się gdy otrzyma dostęp
             @Override
             public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse)
             {
-                Toast.makeText(MainActivity3.this, "Uzyskano dostęp", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Mapa.this, "Uzyskano dostęp", Toast.LENGTH_SHORT).show();
                 isPermissionGranted = true;
             }
 
+            //fragment klasy wywołuje się gdy nie otrzyma dostępu
             @Override
             public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse)
             {
@@ -104,6 +115,7 @@ public class MainActivity3 extends AppCompatActivity implements OnMapReadyCallba
                 startActivity(intent);
             }
 
+            //fragment klasy pokazuje interfejs użytkownika z uzasadnieniem
             @Override
             public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken)
             {
@@ -113,6 +125,8 @@ public class MainActivity3 extends AppCompatActivity implements OnMapReadyCallba
     }
 
     @SuppressLint("MissingPermission")
+
+    // fragment klasy onMapReady wykrywający lokalizację sprzętu
     @Override
     public void onMapReady(GoogleMap googleMap)
     {

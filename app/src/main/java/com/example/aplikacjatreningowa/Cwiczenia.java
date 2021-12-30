@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class MainActivity2 extends AppCompatActivity {
+public class Cwiczenia extends AppCompatActivity {
 
     private Button cw_krokomierz;
     private Button cw_rozciaganie;
@@ -18,7 +18,7 @@ public class MainActivity2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.activity_cwiczenia);
 
         cw_krokomierz = (Button) findViewById(R.id.cw_krokomierz);
         cw_krokomierz.setOnClickListener(new View.OnClickListener() {

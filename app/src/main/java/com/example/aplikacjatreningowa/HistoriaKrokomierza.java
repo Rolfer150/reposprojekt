@@ -12,6 +12,7 @@ public class HistoriaKrokomierza extends AppCompatActivity {
 
     TextView txt2,txt3,txt4;
 
+    // spisywanie danych z klasy Krokomierz
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,9 +22,14 @@ public class HistoriaKrokomierza extends AppCompatActivity {
         txt3 = findViewById(R.id.txt3);
         txt4 = findViewById(R.id.txt4);
 
+        // tworzenie obiektu saves klasy SharedPreferences odpowiedzialnej za zapisywanie danych
         SharedPreferences saves = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        // spisywanie liczby kroków przebytych dzisiaj
         long stepsRunToday = saves.getLong("STEPS_RUN_TODAY", 0);
+        // spisywanie liczby kroków przebytych w tym miesiącu
         long stepsRunThisMonth = saves.getLong("STEPS_RUN_THIS_MONTH", 0);
+        // spisywanie największej liczby kroków
         long highestStepsRunInOneDay = saves.getLong("HIGHEST_STEPS_RUN_IN_ONE_DAY", 0);
 
         txt2.setText("Najwyższy: " + highestStepsRunInOneDay);

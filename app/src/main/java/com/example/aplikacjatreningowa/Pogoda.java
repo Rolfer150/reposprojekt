@@ -26,16 +26,16 @@ import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
 
-public class MainActivity4 extends AppCompatActivity {
+public class Pogoda extends AppCompatActivity {
 
-
+    // kod api aplikacji
     final String APP_ID = "e2c5964a00a2516538af244af5f37723";
+    // kod api pogody ze strony openweathermap
     final String WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather";
 
     final long MIN_TIME = 5000;
     final float MIN_DISTANCE = 1000;
     final int REQUEST_CODE = 101;
-
 
     String Location_Provider = LocationManager.GPS_PROVIDER;
 
@@ -44,15 +44,13 @@ public class MainActivity4 extends AppCompatActivity {
 
     RelativeLayout mCityFinder;
 
-
     LocationManager mLocationManager;
     LocationListener mLocationListner;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main4);
+        setContentView(R.layout.activity_pogoda);
 
         weatherState = findViewById(R.id.weatherCondition);
         Temperature = findViewById(R.id.temperature);
@@ -60,22 +58,15 @@ public class MainActivity4 extends AppCompatActivity {
         mCityFinder = findViewById(R.id.cityFinder);
         NameofCity = findViewById(R.id.cityName);
 
-
         mCityFinder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity4.this, cityFinder.class);
+                Intent intent = new Intent(Pogoda.this, cityFinder.class);
                 startActivity(intent);
             }
         });
 
     }
-
- /*   @Override
-   protected void onResume() {
-       super.onResume();
-       getWeatherForCurrentLocation();
-    }*/
 
     @Override
     protected void onResume() {
@@ -90,42 +81,36 @@ public class MainActivity4 extends AppCompatActivity {
         {
             getWeatherForCurrentLocation();
         }
-
-
     }
 
-
+    // wprowadzanie nazwy miejscowosci
     private void getWeatherForNewCity(String city)
     {
         RequestParams params=new RequestParams();
         params.put("q",city);
         params.put("appid",APP_ID);
         letsdoSomeNetworking(params);
-
     }
 
-
-
-
+    // funkcja wywołuje aktualne inforamcje na podstawie aktualnych współrzędnych
     private void getWeatherForCurrentLocation() {
 
+        // implementacja obiektu mLocationManager, który pobiera współrzędne geograficzne sprzętu
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         mLocationListner = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
 
+                // implementacja stringów, przechowujących informacje na temat współrzędnych
                 String Latitude = String.valueOf(location.getLatitude());
                 String Longitude = String.valueOf(location.getLongitude());
 
+                // wywołanie parametrów - szerokości geograficznej i długości geograficznej
                 RequestParams params =new RequestParams();
                 params.put("lat" ,Latitude);
                 params.put("lon",Longitude);
                 params.put("appid",APP_ID);
                 letsdoSomeNetworking(params);
-
-
-
-
             }
 
             @Override
@@ -144,45 +129,27 @@ public class MainActivity4 extends AppCompatActivity {
             }
         };
 
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},REQUEST_CODE);
             return;
         }
         mLocationManager.requestLocationUpdates(Location_Provider, MIN_TIME, MIN_DISTANCE, mLocationListner);
-
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-
         if(requestCode==REQUEST_CODE)
         {
             if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED)
             {
-                Toast.makeText(MainActivity4.this,"Locationget Succesffully",Toast.LENGTH_SHORT).show();
+                Toast.makeText(Pogoda.this,"Locationget Succesffully",Toast.LENGTH_SHORT).show();
                 getWeatherForCurrentLocation();
             }
-            else
-            {
-                //user denied the permission
-            }
         }
-
-
     }
-
-
 
     private  void letsdoSomeNetworking(RequestParams params)
     {
@@ -192,35 +159,28 @@ public class MainActivity4 extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
-                Toast.makeText(MainActivity4.this,"Data Get Success",Toast.LENGTH_SHORT).show();
+                Toast.makeText(Pogoda.this,"Data Get Success",Toast.LENGTH_SHORT).show();
 
                 weatherData weatherD=weatherData.fromJson(response);
                 updateUI(weatherD);
 
 
-                // super.onSuccess(statusCode, headers, response);
             }
-
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                //super.onFailure(statusCode, headers, throwable, errorResponse);
+
             }
         });
-
-
-
     }
 
     private  void updateUI(weatherData weather){
-
 
         Temperature.setText(weather.getmTemperature());
         NameofCity.setText(weather.getMcity());
         weatherState.setText(weather.getmWeatherType());
         int resourceID=getResources().getIdentifier(weather.getMicon(),"drawable",getPackageName());
         mweatherIcon.setImageResource(resourceID);
-
 
     }
 

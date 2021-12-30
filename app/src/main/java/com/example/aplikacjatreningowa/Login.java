@@ -21,7 +21,7 @@ public class Login extends AppCompatActivity {
     String userName = "";
     String userPassword = "";
 
-    /* Class to hold credentials */
+    // klasa przechowująca dane logowania
     class Credentials {
         String name = "Admin";
         String password = "123456";
@@ -34,70 +34,66 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        /* Bind the XML views to Java Code Elements */
         eName = findViewById(R.id.etName);
         ePassword = findViewById(R.id.etPassword);
         eAttemptsInfo = findViewById(R.id.tvAttempts);
         eLogin = findViewById(R.id.btnLogin);
 
-        /* Describe the logic when the login button is clicked */
+        // sprawdzenie czy przycisk login został kliknięty
         eLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                /* Obtain user inputs */
+                // wprowadzienie danych przez użytkownika
                 userName = eName.getText().toString();
                 userPassword = ePassword.getText().toString();
 
-                /* Check if the user inputs are empty */
+                // sprawdzenie czy wprowadzone dane są puste
                 if (userName.isEmpty() || userPassword.isEmpty()) {
-                    /* Display a message toast to user to enter the details */
+                    // wyświetlenie informacji o pustych danych
                     Toast.makeText(Login.this, "Proszę podać login i hasło", Toast.LENGTH_LONG).show();
 
                 } else {
 
-                    /* Validate the user inputs */
+                    // sprawdzanie zgodności danych
                     isValid = validate(userName, userPassword);
 
-                    /* Validate the user inputs */
-
-                    /* If not valid */
+                    // jeśli są nieprawidłowe
                     if (!isValid) {
 
-                        /* Decrement the counter */
+                        // zmniejszenie licznika
                         counter--;
 
-                        /* Show the attempts remaining */
+                        // pokazanie liczby prób zalogowań
                         eAttemptsInfo.setText("Pozostało " + String.valueOf(counter) + " prób");
 
-                        /* Disable the login button if there are no attempts left */
+                        // zablokowanie przycisku logowania gdy nie ma już więcej prób
                         if (counter == 0) {
                             eLogin.setEnabled(false);
-                            Toast.makeText(Login.this, "Wyczerpałeś wszystkie próby, Spróbuj później", Toast.LENGTH_LONG).show();
+                            Toast.makeText(Login.this, "Wyczerpałeś wszystkie próby. Spróbuj zalogować się później", Toast.LENGTH_LONG).show();
                         }
-                        /* Display error message */
+                        // wyświetlenie komunikatu o nieprawidłowych danych logowania
                         else {
                             Toast.makeText(Login.this, "Niepoprawne dane, podaj jeszcze raz", Toast.LENGTH_LONG).show();
                         }
                     }
-                    /* If valid */
+                    // jeśli dane są poprawne
                     else {
 
-                        /* Allow the user in to your app by going into the next activity */
-                        startActivity(new Intent(Login.this, MainActivity.class));
+                        // przekierowanie aplikacji do klasy Menu
+                        startActivity(new Intent(Login.this, Menu.class));
                     }
-
                 }
             }
         });
     }
 
-    /* Validate the credentials */
+    // sprawdzanie zgodności danych
     private boolean validate(String userName, String userPassword) {
-        /* Get the object of Credentials class */
+        // pobranie danych z klasy Credentials
         Credentials credentials = new Credentials();
 
-        /* Check the credentials */
+        // sprawdzanie danych logowania
         if (userName.equals(credentials.name) && userPassword.equals(credentials.password)) {
             return true;
         }

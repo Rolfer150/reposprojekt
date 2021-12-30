@@ -41,7 +41,7 @@
             android:name=".Rozciaganie"
             android:exported="false" />
         <activity
-            android:name=".MainActivity5"
+            android:name=".Historia"
             android:exported="false" />
         <activity
             android:name=".HistoriaKrokomierza"
@@ -50,19 +50,19 @@
             android:name=".Krokomierz"
             android:exported="false" />
         <activity
-            android:name=".MainActivity4"
+            android:name=".Pogoda"
             android:exported="false" />
         <activity
             android:name=".cityFinder"
             android:exported="false" />
         <activity
-            android:name=".MainActivity3"
+            android:name=".Mapa"
             android:exported="false" />
         <activity
-            android:name=".MainActivity2"
+            android:name=".Cwiczenia"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Menu"
             android:exported="false" />
 
         <meta-data

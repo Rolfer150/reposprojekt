@@ -17,11 +17,9 @@ import android.widget.Toast;
 
 public class Krokomierz extends AppCompatActivity implements SensorEventListener {
 
-    //Button btn1,btn2;
-
     SensorManager sensormanager;
     Sensor sensor;
-    TextView txt2,txt3,txt4,txt5,txt6;
+    TextView txt2,txt3,txt4;
     private Integer steps = 0;
     boolean isRunning = false;
     boolean startButtonPressed = false;
@@ -36,27 +34,29 @@ public class Krokomierz extends AppCompatActivity implements SensorEventListener
         sensormanager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         txt2 = (TextView) findViewById(R.id.txt2);
         txt4 = (TextView) findViewById(R.id.txt4);
-        //btn2 = (Button) findViewById(R.id.btn2);
         txt3 = (TextView) findViewById(R.id.txt3);
 
         sensor = sensormanager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
+        // sensor "nasłuchuje" detektor ruchu urządzenia
         SensorEventListener stepDetector = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent sensorEvent) {
                 if (sensorEvent!= null){
-                    float x_acceleration = sensorEvent.values[0];
-                    float y_acceleration = sensorEvent.values[1];
-                    float z_acceleration = sensorEvent.values[2];
+                    float x_acceleration = sensorEvent.values[0]; // wykrywanie ruchu po współrzędnej x
+                    float y_acceleration = sensorEvent.values[1]; // wykrywanie ruchu po współrzędnej y
+                    float z_acceleration = sensorEvent.values[2]; // wykrywanie ruchu po współrzędnej z
 
+                    // implementacja zmiennej o nazwie Magnitude, która będzie zapisywać wstrząśnięcia
                     double Magnitude = Math.sqrt(x_acceleration*x_acceleration + y_acceleration*y_acceleration + z_acceleration*z_acceleration);
                     double MagnitudeDelta = Magnitude - MagnitudePrevious;
                     MagnitudePrevious = Magnitude;
 
+                    // liczenie kroków, jeśli moc magnitudy mieści się w przedziale 2-6
                     if (MagnitudeDelta >= 2 && MagnitudeDelta <= 6 ){
                         steps++;
                     }
-                    txt2.setText(steps.toString());
+                    txt2.setText(steps.toString()); // wypisanie kroków
                 }
             }
             @Override
@@ -66,30 +66,46 @@ public class Krokomierz extends AppCompatActivity implements SensorEventListener
         sensormanager.registerListener(stepDetector, sensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
+    // funkcja zatrzymująca krokomierz
     public void stop (View v) {
-        isRunning = false;
-        startButtonPressed = false;
+        isRunning = false; // zmienna bool sprawdzająca, czy urządzenie jest w ruchu
+        startButtonPressed = false; // zmienna bool sprawdzająca, czy przycisk start jest włączony
+
+        // jeśli wykonano mniej niż 1000 kroków
         if(steps < 1000)
-            Toast.makeText(Krokomierz.this, "Congrats!! You Have Run " + steps + " steps",Toast.LENGTH_LONG).show();
+            // wyświetlany jest komunikat "Gratulacje!! Przebiegłeś x kroków"
+            Toast.makeText(Krokomierz.this, "Gratulacje!! Przebiegłeś " + steps + " kroków",Toast.LENGTH_LONG).show();
+        // wyświetlany jest komunikat "Zrobiłeś ponad 1000 kroków!!"
         else {
-            Toast.makeText(Krokomierz.this, "You are on Fire Today!!",Toast.LENGTH_LONG).show();
+            Toast.makeText(Krokomierz.this, "Zrobiłeś ponad 1000 kroków!!",Toast.LENGTH_LONG).show();
         }
-        txt3.setText("Average calories burned:: " + (((float)steps/1000)*100) + " kcal");
+        // po zatrzymaniu funkcja liczy spalone kalorie według poniższego wzoru
+        txt3.setText("Średnio spalone kalorie:: " + (((float)steps/1000)*100) + " kcal");
 
 
     }
 
+    // resetowanie licznika i zapis przebytych kroków
     public void reset (View v) {
 
+        // tworzenie obiektu saves klasy SharedPreferences odpowiedzialnej za zapisywanie danych
         SharedPreferences saves = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        // zmienna przechowująca liczbę kroków przebytych dzisiaj
         long stepsRunToday = saves.getLong("STEPS_RUN_TODAY", 0);
+        // zmienna przechowująca liczbę kroków przebytych przez miesiąc
         long stepsRunThisMonth = saves.getLong("STEPS_RUN_THIS_MONTH", 0);
+        // zmienna przechowująca największą liczbę kroków
         long highestStepsRunInOneDay = saves.getLong("HIGHEST_STEPS_RUN_IN_ONE_DAY", 0);
 
+        // nadpisywanie przebytych kroków
         SharedPreferences.Editor editor = saves.edit();
         editor.putLong("STEPS_RUN_TODAY", steps + stepsRunToday);
         editor.putLong("STEPS_RUN_THIS_MONTH", steps + stepsRunThisMonth);
+
+        // jeśli liczba przebytych kroków jest większa od poprzedniej największej liczby kroków
         if((steps+stepsRunToday) > highestStepsRunInOneDay) {
+            // dane są nadpisywane
             editor.putLong("HIGHEST_STEPS_RUN_IN_ONE_DAY", steps+stepsRunToday);
         }
         editor.commit();
@@ -105,12 +121,7 @@ public class Krokomierz extends AppCompatActivity implements SensorEventListener
     protected void onResume() {
         super.onResume();
         if(startButtonPressed == true) isRunning = true;
-//        Sensor countSensor = sensormanager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
-//        if(countSensor != null){
-//           sensormanager.registerListener(this,countSensor,SensorManager.SENSOR_DELAY_UI);
-//        } else {
-//            Toast.makeText(this,"NO sensor Found",Toast.LENGTH_LONG).show();
-//        }
+
     }
 
     @Override
@@ -152,8 +163,6 @@ public class Krokomierz extends AppCompatActivity implements SensorEventListener
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
-
-
 
     public void start (View view) {
         isRunning = true;

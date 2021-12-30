@@ -50,7 +50,7 @@ public class weatherData {
         }
         else  if(condition>=600 && condition<=700)
         {
-            return "snow2";
+            return "snow";
         }
         else if(condition>=701 && condition<=771)
         {
@@ -83,7 +83,7 @@ public class weatherData {
         }
         if(condition>=905 && condition<=1000)
         {
-            return "thunderstrom2";
+            return "thunderstrom";
         }
 
         return "dunno";

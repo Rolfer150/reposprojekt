@@ -31,19 +31,12 @@ public class cityFinder extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 String newCity= editText.getText().toString();
-                Intent intent=new Intent(cityFinder.this,MainActivity4.class);
+                Intent intent=new Intent(cityFinder.this,Pogoda.class);
                 intent.putExtra("City",newCity);
                 startActivity(intent);
-
-
 
                 return false;
             }
         });
-
-
-
-
-
     }
 }
