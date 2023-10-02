@@ -64,6 +64,9 @@
         <activity
             android:name=".Menu"
             android:exported="false" />
+        <activity
+            android:name=".Kalkulator"
+            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.gms.version"

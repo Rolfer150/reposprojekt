@@ -16,6 +16,7 @@ public class Menu extends AppCompatActivity {
     private Button button2; // przycisk uruchamiający ćwiczenia
     private Button button3; // przycisk uruchamiający pogodę
     private Button button4; // przycisk uruchamiający historię
+    private Button button5; // przycisk uruchamiający kalkulator
 
     // fragment klasy wywoływany, gdy działanie jest tworzone po raz pierwszy.
     @Override
@@ -58,6 +59,15 @@ public class Menu extends AppCompatActivity {
                 openHistoria();
             }
         });
+
+        // po kliknięciu przycisku "Kalkulator", zostanie wywołana funkcja openKalkulator przez fragment klasy onClick
+        button5 = (Button) findViewById(R.id.button5);
+        button5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openKalkulator();
+            }
+        });
     }
 
     // funkcja zostanie wywołana przez fragment onClick
@@ -86,6 +96,13 @@ public class Menu extends AppCompatActivity {
     {
         // aplikacja przełączy się na klasę Historia
         Intent intent = new Intent(this, Historia.class);
+        startActivity(intent);
+    }
+
+    public void openKalkulator()
+    {
+        // aplikacja przełączy się na klasę Kalkulator
+        Intent intent = new Intent(this, Kalkulator.class);
         startActivity(intent);
     }
 }
