@@ -3,10 +3,18 @@ package com.example.aplikacjatreningowa;
 
 // implmentacja bibliotek
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
 
 // deklaracja klasy Menu będącej menu naszej aplikacji
 public class Menu extends AppCompatActivity {
@@ -18,11 +26,17 @@ public class Menu extends AppCompatActivity {
     private Button button4; // przycisk uruchamiający historię
     private Button button5; // przycisk uruchamiający kalkulator BMI
 
+    private Button button6;
+
     // fragment klasy wywoływany, gdy działanie jest tworzone po raz pierwszy.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+
+        // Uruchom usługę, która planuje powiadomienia co godzinę
+        Intent serviceIntent = new Intent(this, WaterReminderService.class);
+        startService(serviceIntent);
 
         // po kliknięciu przycisku "Mapa", zostanie wywołana funkcja openMapa przez fragment klasy onClick
         button = (Button) findViewById(R.id.button);
@@ -68,6 +82,14 @@ public class Menu extends AppCompatActivity {
                 openKalkulator();
             }
         });
+
+        button6 = (Button) findViewById(R.id.btnNotifications);
+        button6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                makeNotification();
+            }
+        });
     }
 
     // funkcja zostanie wywołana przez fragment onClick
@@ -104,5 +126,38 @@ public class Menu extends AppCompatActivity {
         // aplikacja przełączy się na klasę Kalkulator
         Intent intent = new Intent(this, Kalkulator.class);
         startActivity(intent);
+    }
+
+    public void makeNotification(){
+        String channelID = "CHANNEL_ID_NOTIFICATION";
+        NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(getApplicationContext(), channelID);
+        builder.setSmallIcon(R.drawable.ic_notifications)
+                .setContentTitle("Tytuł Notyfikacji")
+                .setContentText("UDAŁO SIĘ!!! Notyfikacja działa")
+                .setAutoCancel(true)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        Intent intent = new Intent(getApplicationContext(), NotificationActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("data", "Wartość do wprowadzenia.");
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_MUTABLE);
+        builder.setContentIntent(pendingIntent);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel notificationChannel =
+                    notificationManager.getNotificationChannel(channelID);
+            if (notificationChannel == null)
+            {
+                int importance = NotificationManager.IMPORTANCE_HIGH;
+                notificationChannel = new NotificationChannel(channelID, "Opis", importance);
+                notificationChannel.setLightColor(Color.GREEN);
+                notificationChannel.enableVibration(true);
+                notificationManager.createNotificationChannel(notificationChannel);
+            }
+        }
+        notificationManager.notify(0, builder.build());
     }
 }
