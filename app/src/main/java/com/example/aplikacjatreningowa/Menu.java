@@ -47,39 +47,36 @@ public class Menu extends AppCompatActivity {
             }
         });
 
-        // po kliknięciu przycisku "Ćwiczenia", zostanie wywołana funkcja openCwiczenia przez fragment klasy onClick
+        // po kliknięciu przycisku "Pogoda", zostanie wywołana funkcja openPogoda przez fragment klasy onClick
         button2 = (Button) findViewById(R.id.button2);
         button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openCwiczenia();
-            }
-        });
-
-        // po kliknięciu przycisku "Pogoda", zostanie wywołana funkcja openPogoda przez fragment klasy onClick
-        button3 = (Button) findViewById(R.id.button3);
-        button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openPogoda();
             }
         });
 
-        // po kliknięciu przycisku "Historia", zostanie wywołana funkcja openHistoria przez fragment klasy onClick
-        button4 = (Button) findViewById(R.id.button4);
-        button4.setOnClickListener(new View.OnClickListener() {
+        // po kliknięciu przycisku "Cwiczenia", zostanie wywołana funkcja openCwiczenia przez fragment klasy onClick
+        button3 = (Button) findViewById(R.id.button3);
+        button3.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                openHistoria();
+            public void onClick(View v) { openCwiczenia();
             }
         });
 
-        // po kliknięciu przycisku "Kalkulator", zostanie wywołana funkcja openKalkulator przez fragment klasy onClick
+        // po kliknięciu przycisku "Kalkulator BMI", zostanie wywołana funkcja openHistoria przez fragment klasy onClick
+        button4 = (Button) findViewById(R.id.button4);
+        button4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { openKalkulator();
+            }
+        });
+
+        // po kliknięciu przycisku "Historia", zostanie wywołana funkcja openHistoria przez fragment klasy onClick
         button5 = (Button) findViewById(R.id.button5);
         button5.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                openKalkulator();
+            public void onClick(View v) { openHistoria();
             }
         });
 
