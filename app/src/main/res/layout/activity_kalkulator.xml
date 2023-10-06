@@ -8,12 +8,22 @@
     tools:context=".Kalkulator">
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:text="Kalkulator masy ciała - BMI"
+        android:textSize="28dp"
+        android:textStyle="bold" />
+
+    <TextView
         android:id="@+id/weightLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
         android:text="Waga (kg):"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp"/>
+        android:textSize="16dp" />
 
     <EditText
         android:id="@+id/weightEditText"
@@ -58,5 +68,4 @@
         android:layout_below="@+id/calculateButton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"/>
-
 </RelativeLayout>

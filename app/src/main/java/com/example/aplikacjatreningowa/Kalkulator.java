@@ -45,16 +45,16 @@ public class Kalkulator extends AppCompatActivity {
             String resultText;
 
             if (bmi < 18.5) {
-                resultText = "Niedowaga";
+                resultText = "Wynik: Niedowaga";
             } else if (bmi < 24.9) {
-                resultText = "Waga prawidłowa";
+                resultText = "Wynik: Waga prawidłowa";
             } else if (bmi < 29.9) {
-                resultText = "Nadwaga";
+                resultText = "Wynik: Nadwaga";
             } else {
-                resultText = "Otyłość";
+                resultText = "Wynik: Otyłość";
             }
 
-            resultTextView.setText("BMI: " + bmi + "\n" + resultText);
+            resultTextView.setText("Twój wskaźnik BMI wynosi: " + bmi + "\n" + resultText);
         } else {
             resultTextView.setText("Proszę wprowadzić wagę i wzrost.");
         }
