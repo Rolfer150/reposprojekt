@@ -132,9 +132,9 @@ public class Menu extends AppCompatActivity {
         String channelID = "CHANNEL_ID_NOTIFICATION";
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(getApplicationContext(), channelID);
-        builder.setSmallIcon(R.drawable.ic_notifications)
-                .setContentTitle("Tytuł Notyfikacji")
-                .setContentText("UDAŁO SIĘ!!! Notyfikacja działa")
+        builder.setSmallIcon(R.drawable.id_water)
+                .setContentTitle("Nawodnienie organizmu")
+                .setContentText("Minęła godzina bez picia, powinieneś uzupełnić płyny pijąc szklankę wody!")
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 

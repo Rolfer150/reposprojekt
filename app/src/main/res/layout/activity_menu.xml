@@ -10,8 +10,7 @@
     android:paddingBottom="16dp"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
-    android:paddingTop="16dp"
-    android:background="@drawable/zdrowie">
+    android:paddingTop="16dp">
 
     <Button
         android:id="@+id/btnNotifications"
@@ -31,7 +30,7 @@
         android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="300dp"
         android:layout_marginBottom="30dp"
         android:text="Mapa"
         android:textSize="21sp"
@@ -86,6 +85,11 @@
         app:layout_constraintTop_toBottomOf="@+id/button4"
         tools:layout_editor_absoluteX="89dp" />
 
+    <ImageView
+        android:id="@+id/imageView2"
+        app:srcCompat="@drawable/zdrowie1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
