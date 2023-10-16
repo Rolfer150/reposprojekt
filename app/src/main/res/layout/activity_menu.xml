@@ -90,8 +90,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/zdrowie1"
-        tools:layout_editor_absoluteX="25dp"
-        tools:layout_editor_absoluteY="-67dp" />
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="-80dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

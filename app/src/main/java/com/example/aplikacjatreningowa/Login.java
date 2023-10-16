@@ -34,16 +34,16 @@ public class Login extends AppCompatActivity {
                 String pass = password.getText().toString();
 
                 if(user.equals("")||pass.equals(""))
-                    Toast.makeText(Login.this, "Please enter all the fields", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Login.this, "Należy wpisać wszystkie pola!", Toast.LENGTH_SHORT).show();
                 else{
                     Boolean checkuserpass = DB.checkusernamepassword(user, pass);
 
                     if(checkuserpass==true){
-                        Toast.makeText(Login.this, "Sign in successfull", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Login.this, "Zalogowano się pomyślnie", Toast.LENGTH_SHORT).show();
                         Intent intent  = new Intent(getApplicationContext(), Menu.class);
                         startActivity(intent);
                     }else{
-                        Toast.makeText(Login.this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Login.this, "Użytkownik nie istnieje! Zarejestruj się", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

@@ -33,25 +33,25 @@ public class Rejestracja extends AppCompatActivity {
                 String repass = repassword.getText().toString();
 
                 if(user.equals("")||pass.equals("")||repass.equals(""))
-                    Toast.makeText(Rejestracja.this, "Please enter all the fields", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Rejestracja.this, "Należy wpisać wszystkie pola!", Toast.LENGTH_SHORT).show();
                 else{
                     if(pass.equals(repass)){
                         Boolean checkuser = DB.checkusername(user);
                         if(checkuser==false){
                             Boolean insert = DB.insertData(user, pass);
                             if(insert==true){
-                                Toast.makeText(Rejestracja.this, "Registered successfully", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Rejestracja.this, "Witaj w aplikacji zdrowego trybu życia!", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(getApplicationContext(), Menu.class);
                                 startActivity(intent);
                             }else{
-                                Toast.makeText(Rejestracja.this, "Registration failed", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Rejestracja.this, "Błędna rejestracja", Toast.LENGTH_SHORT).show();
                             }
                         }
                         else{
-                            Toast.makeText(Rejestracja.this, "User already exists! please sign in", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Rejestracja.this, "Użytkownik już istnieje! Zaloguj się", Toast.LENGTH_SHORT).show();
                         }
                     }else{
-                        Toast.makeText(Rejestracja.this, "Passwords not matching", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Rejestracja.this, "Hasła nie pasują", Toast.LENGTH_SHORT).show();
                     }
                 } }
         });
