@@ -7,97 +7,58 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class Login extends AppCompatActivity {
+    EditText username, password;
+    Button btnlogin;
+    Button btnRegister;
 
-    private EditText eName;
-    private EditText ePassword;
-    private TextView eAttemptsInfo;
-    private Button eLogin;
-    private int counter = 5;
-
-    String userName = "";
-    String userPassword = "";
-
-    // klasa przechowująca dane logowania
-    class Credentials {
-        String name = "Admin";
-        String password = "123456";
-    }
-
-    boolean isValid = false;
-
+    DatabaseHelper DB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        eName = findViewById(R.id.etName);
-        ePassword = findViewById(R.id.etPassword);
-        eAttemptsInfo = findViewById(R.id.tvAttempts);
-        eLogin = findViewById(R.id.btnLogin);
+        username = (EditText) findViewById(R.id.username1);
+        password = (EditText) findViewById(R.id.password1);
+        btnlogin = (Button) findViewById(R.id.btnsignin1);
+        btnRegister = (Button) findViewById(R.id.btnsignup1);
+        DB = new DatabaseHelper(this);
 
-        // sprawdzenie czy przycisk login został kliknięty
-        eLogin.setOnClickListener(new View.OnClickListener() {
+        btnlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                // wprowadzienie danych przez użytkownika
-                userName = eName.getText().toString();
-                userPassword = ePassword.getText().toString();
+                String user = username.getText().toString();
+                String pass = password.getText().toString();
 
-                // sprawdzenie czy wprowadzone dane są puste
-                if (userName.isEmpty() || userPassword.isEmpty()) {
-                    // wyświetlenie informacji o pustych danych
-                    Toast.makeText(Login.this, "Proszę podać login i hasło", Toast.LENGTH_LONG).show();
+                if(user.equals("")||pass.equals(""))
+                    Toast.makeText(Login.this, "Please enter all the fields", Toast.LENGTH_SHORT).show();
+                else{
+                    Boolean checkuserpass = DB.checkusernamepassword(user, pass);
 
-                } else {
-
-                    // sprawdzanie zgodności danych
-                    isValid = validate(userName, userPassword);
-
-                    // jeśli są nieprawidłowe
-                    if (!isValid) {
-
-                        // zmniejszenie licznika
-                        counter--;
-
-                        // pokazanie liczby prób zalogowań
-                        eAttemptsInfo.setText("Pozostało " + String.valueOf(counter) + " prób");
-
-                        // zablokowanie przycisku logowania gdy nie ma już więcej prób
-                        if (counter == 0) {
-                            eLogin.setEnabled(false);
-                            Toast.makeText(Login.this, "Wyczerpałeś wszystkie próby. Spróbuj zalogować się później", Toast.LENGTH_LONG).show();
-                        }
-                        // wyświetlenie komunikatu o nieprawidłowych danych logowania
-                        else {
-                            Toast.makeText(Login.this, "Niepoprawne dane, podaj jeszcze raz", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                    // jeśli dane są poprawne
-                    else {
-
-                        // przekierowanie aplikacji do klasy Menu
-                        startActivity(new Intent(Login.this, Menu.class));
+                    if(checkuserpass==true){
+                        Toast.makeText(Login.this, "Sign in successfull", Toast.LENGTH_SHORT).show();
+                        Intent intent  = new Intent(getApplicationContext(), Menu.class);
+                        startActivity(intent);
+                    }else{
+                        Toast.makeText(Login.this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
         });
+
+        btnRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openRejestracja();
+            }
+        });
     }
 
-    // sprawdzanie zgodności danych
-    private boolean validate(String userName, String userPassword) {
-        // pobranie danych z klasy Credentials
-        Credentials credentials = new Credentials();
-
-        // sprawdzanie danych logowania
-        if (userName.equals(credentials.name) && userPassword.equals(credentials.password)) {
-            return true;
-        }
-
-        return false;
+    private void openRejestracja() {
+        Intent intent  = new Intent(getApplicationContext(), Rejestracja.class);
+        startActivity(intent);
     }
 }

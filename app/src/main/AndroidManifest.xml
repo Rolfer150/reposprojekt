@@ -33,6 +33,9 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".Rejestracja"
+            android:exported="false"/>
+        <activity
             android:name=".Nogi"
             android:exported="false" />
         <activity
