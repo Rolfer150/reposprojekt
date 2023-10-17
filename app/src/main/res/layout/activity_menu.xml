@@ -10,7 +10,8 @@
     android:paddingBottom="16dp"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
-    android:paddingTop="16dp">
+    android:paddingTop="16dp"
+    android:background="@drawable/zdrowie5">
 
     <Button
         android:id="@+id/btnNotifications"
@@ -85,13 +86,16 @@
         app:layout_constraintTop_toBottomOf="@+id/button4"
         tools:layout_editor_absoluteX="89dp" />
 
-    <ImageView
-        android:id="@+id/imageView2"
+    <Button
+        android:id="@+id/btnLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/zdrowie1"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="-80dp" />
+        android:onClick="showLogoutDialog"
+        android:text="Wyloguj"
+        tools:layout_editor_absoluteX="140dp"
+        tools:layout_editor_absoluteY="614dp" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

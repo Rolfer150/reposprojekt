@@ -25,8 +25,7 @@ public class Menu extends AppCompatActivity {
     private Button button3; // przycisk uruchamiający pogodę
     private Button button4; // przycisk uruchamiający historię
     private Button button5; // przycisk uruchamiający kalkulator BMI
-
-    private Button button6;
+    private Button button6; // przycisk wyloguj z aplikacji
 
     // fragment klasy wywoływany, gdy działanie jest tworzone po raz pierwszy.
     @Override
