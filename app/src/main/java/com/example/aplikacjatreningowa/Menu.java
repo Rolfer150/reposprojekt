@@ -108,7 +108,7 @@ public class Menu extends AppCompatActivity {
             case R.id.logout:
                 AlertDialog.Builder builder = new AlertDialog.Builder(Menu.this);
                 builder.setTitle("Wylogowanie się").
-                        setMessage("Czy napewno chcesz się wylogować");
+                        setMessage("Czy na pewno chcesz się wylogować?");
                 builder.setPositiveButton("Tak",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
