@@ -2,6 +2,7 @@
 package com.example.aplikacjatreningowa;
 
 // implmentacja bibliotek
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 
@@ -9,12 +10,15 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-
+import android.app.AlertDialog;
 
 // deklaracja klasy Menu będącej menu naszej aplikacji
 public class Menu extends AppCompatActivity {
@@ -27,11 +31,14 @@ public class Menu extends AppCompatActivity {
     private Button button5; // przycisk uruchamiający kalkulator BMI
     private Button button6; // przycisk wyloguj z aplikacji
 
+
     // fragment klasy wywoływany, gdy działanie jest tworzone po raz pierwszy.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+
+
 
         // Uruchom usługę, która planuje powiadomienia co godzinę
         Intent serviceIntent = new Intent(this, WaterReminderService.class);
@@ -87,6 +94,42 @@ public class Menu extends AppCompatActivity {
             }
         });
     }
+    @Override
+    public boolean onCreateOptionsMenu(android.view.Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.logout:
+                AlertDialog.Builder builder = new AlertDialog.Builder(Menu.this);
+                builder.setTitle("Wylogowanie się").
+                        setMessage("Czy napewno chcesz się wylogować");
+                builder.setPositiveButton("Tak",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Intent i = new Intent(getApplicationContext(),
+                                        Login.class);
+                                startActivity(i);
+                            }
+                        });
+                builder.setNegativeButton("Nie",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alert11 = builder.create();
+                alert11.show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     // funkcja zostanie wywołana przez fragment onClick
     public void openMapa()
@@ -121,6 +164,13 @@ public class Menu extends AppCompatActivity {
     {
         // aplikacja przełączy się na klasę Kalkulator
         Intent intent = new Intent(this, Kalkulator.class);
+        startActivity(intent);
+    }
+
+    public void openLogowanie()
+    {
+        // aplikacja przełączy się na klasę Kalkulator
+        Intent intent = new Intent(this, Login.class);
         startActivity(intent);
     }
 
